@@ -17,3 +17,4 @@ def login():
 
 def profile():
     return render_template('profile.html')
+
