@@ -144,11 +144,8 @@
         <form>
         <div class="info">
           <hr class="colorgraph">
-          <input class="fname" type="text" name="name" placeholder="Name">
           <input type="text" name="name" placeholder="Instagram Tag">
-          <input type="text" name="name" placeholder="Email">
           <input type="password" name="password" placeholder="Password">
-          <input type="password" name="confirm" placeholder="Confirm Password"
 <!--          <select>
             <option value="activity-type" selected>Activity Type*</option>
             <option value="math">Math</option>
