@@ -5,8 +5,8 @@ app = Flask(__name__)
 
 @app.route("/")
 
-def hello():
-    return render_template('home.html')
+def index():
+    return render_template('index.html')
 
 @app.route("/login")
 
@@ -17,4 +17,5 @@ def login():
 
 def profile():
     return render_template('profile.html')
+
 
