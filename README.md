@@ -1,2 +1,0 @@
-# TimeSync
-Hello World!
