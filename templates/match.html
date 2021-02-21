@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  min-width: 250px;
+}
+  html, body {
+      min-height: 100%;
+      }
+      body, div, form, input, select, p {
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: IBM Plex Sans, sans-serif;
+      font-size: 16px;
+      color: #000;
+      }
+
+/* Include the padding and border in an element's total width and height */
+* {
+  box-sizing: border-box;
+}
+
+/* Style the header */
+.header {
+  background-image: linear-gradient(#2193b0 , #6dd5ed );
+  padding: 30px 40px;
+  color: white;
+  text-align: right;
+}
+
+.listStyle {
+    text-align: left;
+    padding: 10px;
+    width: 50%;
+    color: white;
+  float: left;
+}
+.entryStyle {
+	padding: 30px 40px;
+	background-image: linear-gradient(#2980b9, #2c3e50);
+   	 font-size: 18px;
+    	font-family: BlinkMacSystemFont, 'Segoe UI';
+  height: 180px;
+	border-radius: 20px;
+  color: white;
+}
+.userStyle {
+    text-align: right;
+    padding: 10px;
+  color: white;
+  float: right;
+
+}
+ .info {
+      display: flex;
+      flex-direction: column;
+      }
+
+.testform {
+	display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+
+}
+h2 {
+	color: white;
+  text-align: center;
+  font-size: 50px;
+  font-family: Impact, Sans-serif;
+}
+a {
+	color: white;
+  font-size: 20px;
+}
+
+input {
+padding: 5px;
+border-radius: 25px;
+background: white;
+border: none;
+border-bottom: 1px solid #eee;
+}
+select {
+border-radius: 25px;
+padding: 5px
+}
+
+</style>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+</head>
+<body>
+<div id="Header" class="header">
+  <h2 style="margin:1px">TimeSync</h2>
+  <a href="/home">Personal Tasklist</a>
+    {% if current_user.is_authenticated %}
+        <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+    {% else %}
+        <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+        <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+  </div>
+
+
+ {% for todo in todos %}
+        <div class="entryStyle">
+            <p class="listStyle"> You have a matching activity around the same time!</p>
+            <p class="listStyle">Activity: {{ todo.title }} </p>
+            <p class="listStyle"> Info: {{ todo.description }}</p>
+            <p class="listStyle"> Time: {{ todo.start_time }} - {{todo.end_time}}</p>
+
+            <a class="listStyle" href={{  ((user.query.filter(user.id==todo.user_id)).all())[0].username  }}>Reach out on Instagram: {{  ((user.query.filter(user.id==todo.user_id)).all())[0].username  }}</a>
+        </div>
+        {% endfor %}
+
+
+</body>
+</html>

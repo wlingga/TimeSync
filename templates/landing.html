@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<style>
+    body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f0f0f0;
+  color: rgb(31, 31, 31);
+  transition: all 300ms ease;
+}
+
+div {
+  text-align: center;
+  border: 4px solid rgb(31, 31, 31);
+  padding: 16px;
+  box-shadow: 16px 16px rgb(31, 31, 31);
+  border-radius: 16px;
+}
+
+img {
+  max-width: 300px;
+  border-radius: 8px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(30, 160, 235);
+  font-weight: bold;
+}
+
+.dark {
+  background: rgb(41, 41, 41);
+  color: #f0f0f0;
+}
+</style>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<!-- ^ the viewport meta tag is to make your webpage responsive according to screen size -->
+	<title>TimeSync</title>
+	<!-- ^ your webpage's title -->
+	<link href="style.css" rel="stylesheet" type="text/css" />
+	<!-- ^ where we link our CSS file to our webpage -->
+</head>
+
+<body>
+
+<div>
+  <h1>TimeSync</h1>
+  <h2>We link up people who do same thing at the same time.</h2>
+  <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+        <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+</div>
+
+	<script src="script.js"></script>
+	<!-- ^ where we link our JS file to our webpage (we don't need to worry about this for now!) -->
+</body>
+
+</html>
