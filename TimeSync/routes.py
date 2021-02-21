@@ -1,13 +1,36 @@
 from flask import render_template, url_for, flash, redirect, request
-from TimeSync import app, db, bcrypt
-from TimeSync.forms import RegistrationForm, LoginForm
-from TimeSync.models import User, Todo
+from timesync import app, db, bcrypt
+from timesync.forms import RegistrationForm, LoginForm
+from timesync.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
+
+posts = [
+    {
+        'author': 'Corey Schafer',
+        'title': 'Blog Post 1',
+        'content': 'First post content',
+        'date_posted': 'April 20, 2018'
+    },
+    {
+        'author': 'Jane Doe',
+        'title': 'Blog Post 2',
+        'content': 'Second post content',
+        'date_posted': 'April 21, 2018'
+    }
+]
+
+
 @app.route("/")
+@app.route("/home")
 def home():
-    todo_list = Todo.query.all()
-    return render_template("base.html", todo_list=todo_list)
+    return render_template('home.html', posts=posts)
+
+
+@app.route("/about")
+def about():
+    return render_template('about.html', title='About')
+
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -22,6 +45,7 @@ def register():
         flash('Your account has been created! You are now able to log in', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
@@ -38,26 +62,14 @@ def login():
             flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-@app.route("/add", methods=["POST"])
-def add():
-    title = request.form.get("title")
-    new_todo = Todo(title=title, complete=False)
-    db.session.add(new_todo)
-    db.session.commit()
-    return redirect(url_for("home"))
 
-@app.route("/update/<int:todo_id>")
-def update(todo_id):
-    todo = Todo.query.filter_by(id=todo_id).first()
-    todo.complete = not todo.complete
-    db.session.commit()
-    return redirect(url_for("home"))
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
 
-@app.route("/delete/<int:todo_id>")
-def delete(todo_id):
-    todo = Todo.query.filter_by(id=todo_id).first()
-    db.session.delete(todo)
-    db.session.commit()
-    return redirect(url_for("home"))
-
+@app.route("/account")
+@login_required
+def account():
+    return render_template('account.html', title='Account')
