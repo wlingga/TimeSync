@@ -1,36 +1,22 @@
 from flask import render_template, url_for, flash, redirect, request
 from timesync import app, db, bcrypt
 from timesync.forms import RegistrationForm, LoginForm
-from timesync.models import User, Post
+from timesync.models import User, Todo
 from flask_login import login_user, current_user, logout_user, login_required
 
 
-posts = [
-    {
-        'author': 'Corey Schafer',
-        'title': 'Blog Post 1',
-        'content': 'First post content',
-        'date_posted': 'April 20, 2018'
-    },
-    {
-        'author': 'Jane Doe',
-        'title': 'Blog Post 2',
-        'content': 'Second post content',
-        'date_posted': 'April 21, 2018'
-    }
-]
-
-
 @app.route("/")
+def landing():
+    return render_template('landing.html')
+
 @app.route("/home")
 def home():
-    return render_template('home.html', posts=posts)
-
+    todo_list = Todo.query.all()
+    return render_template('home.html', todo_list=todo_list)
 
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
-
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
@@ -49,6 +35,7 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    print("hi this is atest ")
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
@@ -66,10 +53,48 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('landing'))
 
 
 @app.route("/account")
 @login_required
 def account():
     return render_template('account.html', title='Account')
+
+
+
+### TASK ADDING STUFF ###
+@app.route("/add", methods=["POST"])
+def add():
+    title = request.form.get("title")
+    description = request.form.get("description")
+    start_time = request.form.get("start_time")
+    end_time = request.form.get("end_time")
+    user_id = request.form.get("user_id")
+
+    # print(title)
+    # print(description)
+    # print(start_time)
+    # print(end_time)
+
+    new_todo = Todo(title=title, description=description, start_time=start_time, end_time=end_time, complete=False)
+    db.session.add(new_todo)
+    db.session.commit()
+
+    return redirect(url_for("home"))
+
+
+@app.route("/update/<int:todo_id>")
+def update(todo_id):
+    todo = Todo.query.filter_by(id=todo_id).first()
+    todo.complete = not todo.complete
+    db.session.commit()
+    return redirect(url_for("home"))
+
+
+@app.route("/delete/<int:todo_id>")
+def delete(todo_id):
+    todo = Todo.query.filter_by(id=todo_id).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for("home"))
