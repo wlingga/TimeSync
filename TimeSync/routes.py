@@ -11,7 +11,8 @@ def landing():
 
 @app.route("/home")
 def home():
-    todo_list = Todo.query.all()
+    todo_list = Todo.query.filter(Todo.user_id == current_user.id).all()
+    print("current user", current_user.id)
     return render_template('home.html', todo_list=todo_list)
 
 @app.route("/about")
@@ -35,7 +36,6 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    print("hi this is atest ")
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
@@ -70,14 +70,9 @@ def add():
     description = request.form.get("description")
     start_time = request.form.get("start_time")
     end_time = request.form.get("end_time")
-    user_id = request.form.get("user_id")
+    user_id = current_user.id
 
-    # print(title)
-    # print(description)
-    # print(start_time)
-    # print(end_time)
-
-    new_todo = Todo(title=title, description=description, start_time=start_time, end_time=end_time, complete=False)
+    new_todo = Todo(title=title, description=description, start_time=start_time, end_time=end_time, complete=False, user_id=user_id)
     db.session.add(new_todo)
     db.session.commit()
 

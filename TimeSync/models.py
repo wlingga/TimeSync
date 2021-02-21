@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     todos = db.relationship('Todo', backref='user', lazy="dynamic")
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.ig_handle}', '{self.email}')"
+        return f"User('{self.username}', '{self.id}', '{self.email}')"
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -24,7 +24,7 @@ class Todo(db.Model):
     start_time = db.Column(db.String(100))
     end_time = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.time_scheduled}', '{self.complete}')"

@@ -113,6 +113,17 @@ ul li.checked::before {
   transition: 0.3s;
 }
 
+.williamStyle {
+    text-align: left;
+    font-size: 18px;
+    font-family: BlinkMacSystemFont, 'Segoe UI';
+    padding: 10px;
+    color: white;
+    background-image: linear-gradient(#2980B9, #6DD5FA);
+    width: 5%;
+    border-radius: 20px;
+}
+
 .addBtn:hover {
   background-color: #bbb;
   border-radius: 200px;
@@ -196,8 +207,11 @@ padding: 5px
 </div>
   </form>
 
-<div class="ui segment">
-            <p class="ui big header">{{todo.id }} | {{ todo.title }}</p>
+ {% for todo in todo_list %}
+        <div class="ui segment">
+            <p class="williamStyle">{{ todo.title }} </p>
+            <p> Info: {{ todo.description }}</p>
+            <p> Time: {{ todo.start_time }} - {{todo.end_time}}</p>
 
             {% if todo.complete == False %}
             <span class="ui gray label">Not Complete</span>
@@ -205,9 +219,28 @@ padding: 5px
             <span class="ui green label">Completed</span>
             {% endif %}
 
-            <a class="ui blue button" href="/update/{{ todo.id }}">Update</a>
             <a class="ui red button" href="/delete/{{ todo.id }}">Delete</a>
         </div>
-    </div>
+        {% endfor %}
+
+<script>
+    function placeholder()
+  {
+		if (document.getElementById("activities").value === 'Study')
+		{
+  		document.getElementById("correlation").placeholder = "Course Code";
+		}
+    else if (document.getElementById("activities").value === 'Workout')
+		{
+  		document.getElementById("correlation").placeholder = "Type of Exercise";
+    }
+    else
+		{
+		document.getElementById("correlation").placeholder = "Planned Meal";
+		}
+  }
+    </script>
 
 </body>
+</html>
+
