@@ -188,15 +188,15 @@ padding: 5px
 
   <form class="form" action="/add" method="post">
       <div class="field">
-            <select name="title" onchange="placeholder()">
-   			 	<option value="activity-type" selected>Activity Type*</option>
+            <select name="title" id="activities" onchange="placeholder()">
+   		<option value="activity-type" selected>Activity Type*</option>
                   <option value="Study" name="title">Study</option>
                     <option value="Cook" name="title">Cook</option>
                     <option value="Workout" name="title">Workout</option>
             </select>
 
 
-          <input type="text" name="description" placeholder="Extra info">
+          <input type="text" id="correlation" name="description" placeholder="Extra info">
 
 
             <input type="time" name="start_time">
