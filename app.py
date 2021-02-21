@@ -1,11 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
+from forms import RegisterationForm, LoginForm
 
 app = Flask(__name__)
 
 # /// = relative path, //// = absolute path
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'amazingpassword'
 db = SQLAlchemy(app)
 
 
@@ -14,12 +15,22 @@ class Todo(db.Model):
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
 
-
 @app.route("/")
 def home():
     todo_list = Todo.query.all()
     return render_template("base.html", todo_list=todo_list)
 
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    form = RegisterationForm()
+    if form.validate_on_submit():
+        flash(f'Account created for {form.username.data}!', 'success')
+    return render_template('register.html', title='Register', form=form)
+
+@app.route("/login")
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='Login', form=form)
 
 @app.route("/add", methods=["POST"])
 def add():
